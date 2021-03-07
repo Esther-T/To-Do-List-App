@@ -59,6 +59,20 @@ app.post("/", function(req, res){
   res.redirect("/");
 });
 
+app.post("/delete", function(req, res){
+  const checkedItemId = req.body.checkbox;
+  console.log(checkedItemId);
+  Item.findByIdAndRemove(checkedItemId, function(err){
+    if (err){
+      console.log(err);
+    }
+    else {
+      console.log("successfully deleted from db");
+    }
+  })
+  res.redirect("/");
+});
+
 
 app.listen(port, function(){
   console.log("Server is running on port " + port);
