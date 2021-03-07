@@ -25,22 +25,30 @@ const item2 = new Item({
 });
 
 const item3 = new Item({
-  name: "<-- Hit this to delete an item"
+  name: "<- Hit this to delete an item"
 });
 
 const defaultItems = [item1, item2, item3];
 
-Item.insertMany(defaultItems, function(err){
-  if (err){
-    console.log(error);
-  }
-  else {
-    console.log("successfully saved default items into db");
-  }
-})
 app.get("/", function(req, res){
-    res.render('list', {listTitle : "What's Left", newListItem: items}) //list in views folder
-    })
+  Item.find({}, function(err, foundItems){
+    if(foundItems.length === 0)
+    {
+       Item.insertMany(defaultItems, function(err){
+        if (err){
+          console.log(error);
+        }
+        else {
+          console.log("successfully saved default items into db");
+        }
+      })
+    res.redirect("/");
+    }
+    else {
+        res.render('list', {listTitle : "What's Left", newListItem: foundItems});
+    }
+  })
+})
 
 app.get("/work", function(req, res){
   res.render("list", {listTitle: "work list", newListItem: workItems });
