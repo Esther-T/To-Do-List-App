@@ -50,32 +50,15 @@ app.get("/", function(req, res){
   })
 })
 
-app.get("/work", function(req, res){
-  res.render("list", {listTitle: "work list", newListItem: workItems });
-});
-
 app.post("/", function(req, res){
-  let item = req.body.newItem;
-  console.log(req.body.list);
-  if(req.body.list === "work")
-  {
-    workItems.push(item);
-    res.redirect("/work");
-  }
-  else
-  {
-    items.push(item);
-    res.redirect("/");
-  }
-
+  const itemName = req.body.newItem;
+  const item = new Item({
+    name: itemName
+  });
+  item.save(); // mongo shortcut for a single item
+  res.redirect("/");
 });
 
-app.post("/work", function(req, res){
-  var workItem = req.body.newItem;
-  workItems.push(workItem);
-  console.log(workItem);
-  res.redirect("/work");
-});
 
 app.listen(port, function(){
   console.log("Server is running on port " + port);
