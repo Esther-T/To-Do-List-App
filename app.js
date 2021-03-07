@@ -45,7 +45,7 @@ app.get("/", function(req, res){
     res.redirect("/");
     }
     else {
-        res.render('list', {listTitle : "What's Left", newListItem: foundItems});
+        res.render('list', {listTitle : "What's Left To Do", newListItem: foundItems});
     }
   })
 })
