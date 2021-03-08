@@ -25,7 +25,7 @@ const item2 = new Item({
 });
 
 const item3 = new Item({
-  name: "<- Hit this to delete an item"
+  name: "← Hit this to delete an item"
 });
 
 const defaultItems = [item1, item2, item3];
