@@ -15,6 +15,13 @@ const itemsSchema = {
   name: String
 };
 
+const listSchema = {
+  name: String,
+  items:[itemsSchema]
+};
+
+const List = mongoose.model("List", listSchema);
+
 const Item = mongoose.model("Item", itemsSchema);
 const item1 = new Item({
   name: "Welcome to your to do list!"
@@ -73,6 +80,24 @@ app.post("/delete", function(req, res){
   res.redirect("/");
 });
 
+app.get("/:customListName", function(req, res){
+  const customListName = req.params.customListName;
+  List.findOne({name: customListName}, function(err, foundList){
+    if (!err){
+      if (!foundList){
+        const list = new List({
+          name: customListName,
+          items: defaultItems
+        });
+        list.save();
+        res.redirect("/" + customListName);
+      }
+      else {
+        res.render("list", {listTitle: foundList.name, newListItem: foundList.items});
+      }
+    }
+  })
+});
 
 app.listen(port, function(){
   console.log("Server is running on port " + port);
