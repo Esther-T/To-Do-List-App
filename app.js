@@ -59,11 +59,23 @@ app.get("/", function(req, res){
 
 app.post("/", function(req, res){
   const itemName = req.body.newItem;
+  const listName = req.body.list;
   const item = new Item({
     name: itemName
   });
-  item.save(); // mongo shortcut for a single item
-  res.redirect("/");
+
+  if (listName === "Today")
+  {
+    item.save(); // mongo shortcut for a single item
+    res.redirect("/");
+  }
+  else {
+    List.findOne({name: listName}, function(err, foundList){
+      foundList.items.push(item);
+      foundList.save();
+      res.redirect("/" + listName);
+    });
+  }
 });
 
 app.post("/delete", function(req, res){
