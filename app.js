@@ -53,7 +53,7 @@ app.get("/", function(req, res){
     res.redirect("/");
     }
     else {
-        res.render('list', {listTitle : "What's Left To Do", newListItem: foundItems});
+        res.render('list', {listTitle : "Today", newListItem: foundItems});
     }
   })
 })
@@ -92,8 +92,8 @@ app.post("/delete", function(req, res){
       else {
         console.log("successfully deleted from db");
       }
+      res.redirect("/");
     })
-    res.redirect("/");
   }
   else {
     List.findOneAndUpdate({name: listName}, {$pull:{items: {_id: checkedItemId}}}, function(err, foundList){
