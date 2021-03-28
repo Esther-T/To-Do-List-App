@@ -9,7 +9,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-const uri = "mongodb+srv://admin-esther:poohtest123@cluster0.uy5x6.mongodb.net/todolistDB?retryWrites=true&w=majority";
+const uri = "mongodb+srv://admin-esther:<password>@cluster0.uy5x6.mongodb.net/todolistDB?retryWrites=true&w=majority";
 mongoose.connect(uri, {useNewUrlParser:true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
 
 const itemsSchema = {
