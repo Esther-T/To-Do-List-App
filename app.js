@@ -10,7 +10,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 port = 663;
 
-mongoose.connect("mongodb+srv://admin-esther:poohtest123@cluster0.uy5x6.mongodb.net/todolistDB", {useNewUrlParser: true});
+
+const uri = "mongodb+srv://admin-esther:poohtest123@cluster0.uy5x6.mongodb.net/todolistDB?retryWrites=true&w=majority";
+mongoose.connect(uri, {useNewUrlParser:true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
 
 const itemsSchema = {
   name: String
@@ -44,13 +46,14 @@ app.get("/", function(req, res){
     {
        Item.insertMany(defaultItems, function(err){
         if (err){
-          console.log(error);
+          console.log(err);
         }
         else {
           console.log("successfully saved default items into db");
         }
+
+        res.redirect("/");
       })
-    res.redirect("/");
     }
     else {
         res.render('list', {listTitle : "Today", newListItem: foundItems});
