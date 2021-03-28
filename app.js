@@ -8,8 +8,6 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
-port = 663;
-
 
 const uri = "mongodb+srv://admin-esther:poohtest123@cluster0.uy5x6.mongodb.net/todolistDB?retryWrites=true&w=majority";
 mongoose.connect(uri, {useNewUrlParser:true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
@@ -126,6 +124,12 @@ app.get("/:customListName", function(req, res){
     }
   });
 });
+
+let port = process.env.PORT;
+if (port == null || port == "")
+{
+  port = 663;
+}
 
 app.listen(port, function(){
   console.log("Server is running on port " + port);
